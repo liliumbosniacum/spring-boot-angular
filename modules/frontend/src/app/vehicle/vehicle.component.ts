@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Vehicle } from '../models/vehicle.model';
-import { WebSocketService } from '../services/websocket.service';
+import { StompService } from '../services/stomp.service';
 
 @Component({
   selector: 'app-vehicle',
@@ -16,17 +16,13 @@ export class VehicleComponent implements OnInit {
 
   vehicles:Vehicle[] = [];
 
-  constructor(private http: HttpClient, private wsService: WebSocketService) {
-    http.get<Vehicle[]>("/api/vehicles/list").subscribe((response:Vehicle[]) => {
-      console.log("response", response);
-      this.vehicles = response;
-    });
+  constructor(private http: HttpClient, private stompService: StompService) {
+    this.refreshVehicleTable();
   }
 
   ngOnInit(): void {
-    this.wsService.connect();
-    this.wsService.messages$.subscribe((message: any) => {
-      console.log(message);
+    this.stompService.subscribe('/topic/vehicle', (): void => {
+      this.refreshVehicleTable();
     });
   }
 
@@ -40,5 +36,11 @@ export class VehicleComponent implements OnInit {
     this.http.delete("/api/vehicles/" + vehicleId).subscribe((response:any) => {
       console.log("Deleted vehicle with id " + vehicleId + " " + response);
     })
+  }
+
+  private refreshVehicleTable(): void {
+    this.http.get<Vehicle[]>("/api/vehicles/list").subscribe((response:Vehicle[]) => {
+      this.vehicles = response;
+    });
   }
 }

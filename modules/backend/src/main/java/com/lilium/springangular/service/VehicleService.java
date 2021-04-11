@@ -21,4 +21,9 @@ public class VehicleService extends AbstractCRUDLService<Vehicle, VehicleDTO> im
     protected void updateEntity(Vehicle entity, VehicleDTO dto) {
         entity.setNumber(dto.getNumber());
     }
+
+    @Override
+    protected String getEntityTopic() {
+        return "vehicle";
+    }
 }
