@@ -1,6 +1,8 @@
 package com.lilium.springangular;
 
 import com.lilium.springangular.dto.VehicleDTO;
+import com.lilium.springangular.dto.search.PagedResponse;
+import com.lilium.springangular.dto.search.SearchRequest;
 import com.lilium.springangular.service.VehicleService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,8 @@ public class VehicleServiceIntegrationTest {
                         savedVehicle.getNumber()
                 );
 
-        final List<VehicleDTO> vehicles = service.list();
+        final PagedResponse<VehicleDTO> list = service.list(new SearchRequest());
+        final List<VehicleDTO> vehicles = list.getContent();
         assertThat(vehicles).isNotNull();
         assertThat(vehicles).hasSize(1);
 

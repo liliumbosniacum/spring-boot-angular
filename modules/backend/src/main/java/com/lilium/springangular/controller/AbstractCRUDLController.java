@@ -2,10 +2,10 @@ package com.lilium.springangular.controller;
 
 import com.lilium.springangular.api.AbstractCRUDLApi;
 import com.lilium.springangular.dto.BaseDTO;
+import com.lilium.springangular.dto.search.PagedResponse;
+import com.lilium.springangular.dto.search.SearchRequest;
 import com.lilium.springangular.entity.DistributedEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 public class AbstractCRUDLController<ENTITY extends DistributedEntity, DTO extends BaseDTO> {
     private final AbstractCRUDLApi<ENTITY, DTO> api;
@@ -25,8 +25,8 @@ public class AbstractCRUDLController<ENTITY extends DistributedEntity, DTO exten
     }
 
     @GetMapping("/list")
-    public List<DTO> list() {
-        return api.list();
+    public PagedResponse<DTO> list(SearchRequest request) {
+        return api.list(request);
     }
 
     @DeleteMapping("/{id}")

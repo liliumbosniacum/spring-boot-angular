@@ -3,12 +3,16 @@ package com.lilium.springangular.service;
 import com.lilium.springangular.api.AbstractCRUDLApi;
 import com.lilium.springangular.converter.AbstractDTOConverter;
 import com.lilium.springangular.dto.BaseDTO;
+import com.lilium.springangular.dto.search.PagedResponse;
+import com.lilium.springangular.dto.search.SearchRequest;
+import com.lilium.springangular.dto.search.util.SearchRequestUtil;
 import com.lilium.springangular.entity.DistributedEntity;
 import com.lilium.springangular.repository.DistributedRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.GenericTypeResolver;
+import org.springframework.data.domain.Page;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
@@ -88,8 +92,14 @@ public abstract class AbstractCRUDLService<ENTITY extends DistributedEntity, DTO
     }
 
     @Override
-    public List<DTO> list() {
-        return getDtos(repository.findAll());
+    public PagedResponse<DTO> list(final SearchRequest request) {
+        final Page<ENTITY> response = repository.findAll(SearchRequestUtil.toPageRequest(request));
+        if (response.isEmpty()) {
+            return new PagedResponse<>(Collections.emptyList(), 0, response.getTotalElements());
+        }
+
+        final List<DTO> dtos = getDtos(response.getContent());
+        return new PagedResponse<>(dtos, dtos.size(), response.getTotalElements());
     }
 
     @Override
