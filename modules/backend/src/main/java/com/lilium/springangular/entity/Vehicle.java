@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 @Entity
 public class Vehicle extends DistributedEntity {
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String number;
 
     public String getNumber() {

@@ -30,6 +30,9 @@ public abstract class AbstractCRUDLService<ENTITY extends DistributedEntity, DTO
 
     @Autowired
     private WebSocketService webSocketService;
+
+    @Autowired
+    private ErrorService errorService;
     // endregion
 
     // region Constructor
@@ -70,13 +73,19 @@ public abstract class AbstractCRUDLService<ENTITY extends DistributedEntity, DTO
         updateEntity(entity, dto);
 
         // Save entity
-        final ENTITY savedEntity = repository.save(entity);
+        try {
+            final ENTITY savedEntity = repository.save(entity);
 
-        // Notify frontend that there has been a change on entity
-        notifyFrontend();
+            // Notify frontend that there has been a change on entity
+            notifyFrontend();
 
-        // Convert to DTO and return it
-        return converter.convert(savedEntity);
+            // Convert to DTO and return it
+            return converter.convert(savedEntity);
+        } catch (final Exception e) {
+            errorService.displayError(e.getMessage());
+            return null;
+        }
+
     }
 
     @Override

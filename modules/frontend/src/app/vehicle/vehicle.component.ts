@@ -18,7 +18,7 @@ export class VehicleComponent implements OnInit {
   totalCount:number = 0;
 
   vehicleForm = new FormGroup({
-    number: new FormControl(''),
+    number: new FormControl(null),
   });
 
   vehicles:Vehicle[] = [];
@@ -35,7 +35,9 @@ export class VehicleComponent implements OnInit {
 
   onSubmit() {
     this.http.post<Vehicle>("/api/vehicles", this.vehicleForm.value).subscribe((response:Vehicle) => {
-      console.log("Created vehicle " + response.id + " " + response.number);
+      if (!!response) {
+        console.log("Created vehicle " + response.id + " " + response.number);
+      }
     });
   }
 
@@ -58,7 +60,7 @@ export class VehicleComponent implements OnInit {
     const sufix:string = (page !== undefined && size != undefined)
         ? "?page=" + page + "&size=" + size
         : "";
-    
+
     this.http.get<PagedResponse<Vehicle>>("/api/vehicles/list" + sufix).subscribe((response:PagedResponse<Vehicle>) => {
       this.vehicles = !!response.content ? response.content : [];
       this.totalCount = !!response.totalCount ? response.totalCount : 0;

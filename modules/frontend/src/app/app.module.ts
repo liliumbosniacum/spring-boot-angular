@@ -15,12 +15,15 @@ import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
+import { ErrorDialogComponent } from './error/error-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    VehicleComponent
+    VehicleComponent,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatTableModule,
     MatIconModule,
     MatDividerModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDialogModule
   ],
   providers: [StompService],
   bootstrap: [AppComponent]
