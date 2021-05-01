@@ -5,40 +5,58 @@
             <div class="col-md-6">
                 <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
                     <div class="form-group">
-                      <label for="vehicleNumber">Vehicle number</label>
-                      <input type="text" formControlName="number" class="form-control" id="vehicleNumber" placeholder="Enter vehicle number here">
+                      <mat-form-field>
+                        <mat-label>Vehicle number</mat-label>
+                        <input type="text" formControlName="number" matInput placeholder="Enter vehicle number here">
+                      </mat-form-field>
                     </div>
-                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                    <button mat-stroked-button color="primary" type="submit">Create</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="divider" style="margin-top: 50px;"></div>
+    <mat-divider style="margin-top: 20px; margin-bottom: 20px;"></mat-divider>
+    
+    <table mat-table [dataSource]="vehicles" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let vehicle"> {{vehicle.id}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="number">
+        <th mat-header-cell *matHeaderCellDef> Number </th>
+        <td mat-cell *matCellDef="let vehicle"> {{vehicle.number}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="created">
+        <th mat-header-cell *matHeaderCellDef> Created </th>
+        <td mat-cell *matCellDef="let vehicle"> {{vehicle.created}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="modified">
+        <th mat-header-cell *matHeaderCellDef> Modified </th>
+        <td mat-cell *matCellDef="let vehicle"> {{vehicle.modified}} </td>
+      </ng-container>
 
-    <div style="margin-top: 50px;" class="row">
-        <div class="col">
-            <h2>List Vehicles</h2>
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Number</th>
-                    <th scope="col">Created</th>
-                    <th scope="col">Modified</th>
-                    <th scope="col">Delete</th>
-                  </tr>
-                </thead>
-                <tbody *ngFor="let vehicle of vehicles">
-                  <tr>
-                    <th scope="row">{{ vehicle.id }}</th>
-                    <td>{{ vehicle.number }}</td>
-                    <td>{{ vehicle.created }}</td>
-                    <td>{{ vehicle.modified }}</td>
-                    <td><button (click)="delete(vehicle.id)" type="button" class="btn btn-danger mb-2">Delete</button></td>
-                  </tr>
-                </tbody>
-              </table>
-        </div>
-    </div>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let vehicle">
+          <button (click)="delete(vehicle.id)" mat-icon-button color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator
+                class="paginator"
+                [length]="totalCount"
+                [pageIndex]="page"
+                [pageSize]="size"
+                [pageSizeOptions]="[1, 2, 3, 4]"
+                (page)="loadVehicles($event)"
+    ></mat-paginator>
 </div>
