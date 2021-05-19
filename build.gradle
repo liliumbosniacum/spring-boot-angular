@@ -2,6 +2,8 @@ plugins {
 	id 'org.springframework.boot' version '2.4.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+
+    id 'org.liquibase.gradle' version '2.0.3'
 }
 
 group = 'com.lilium'
@@ -25,6 +27,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.liquibase.gradle'
 
     dependencyManagement {
         dependencies {}
