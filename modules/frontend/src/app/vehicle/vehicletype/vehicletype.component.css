@@ -1,0 +1,12 @@
+table {
+    width: 100%;
+}
+
+.center {
+    margin:auto;
+    display:block;
+}
+
+.paginator {
+    margin-top: 20px;
+}

@@ -19,4 +19,30 @@
     <changeSet author="mirza (generated)" id="1621369530404-2">
         <addUniqueConstraint columnNames="number" constraintName="UC_VEHICLENUMBER_COL" tableName="Vehicle"/>
     </changeSet>
+    <changeSet author="mirza (generated)" id="1621674406136-1">
+        <createTable tableName="VehicleType">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="VehicleTypePK"/>
+            </column>
+            <column name="created" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="mirza (generated)" id="1621674406136-2">
+        <addColumn tableName="Vehicle">
+            <column name="vehicletype" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="mirza (generated)" id="1621674406136-3">
+        <addForeignKeyConstraint baseColumnNames="vehicletype" baseTableName="Vehicle" constraintName="FKpbe0y6rb7hesu7nvldc90gn0e" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="VehicleType" validate="true"/>
+    </changeSet>
 </databaseChangeLog>

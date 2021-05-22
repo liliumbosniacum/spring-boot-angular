@@ -1,0 +1,62 @@
+<div class="container">
+    <div style="margin-top: 50px;" class="row">
+        <div class="col">
+            <h2>Create Vehicle type</h2>
+            <div class="col-md-6">
+                <form [formGroup]="vehicleTypeForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                      <mat-form-field>
+                        <mat-label>Vehicle type name</mat-label>
+                        <input type="text" formControlName="name" matInput placeholder="Enter vehicle type name here">
+                      </mat-form-field>
+                    </div>
+                    <button mat-stroked-button color="primary" type="submit">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <mat-divider style="margin-top: 20px; margin-bottom: 20px;"></mat-divider>
+    
+    <table mat-table [dataSource]="vehicleTypes" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let vehicleType"> {{vehicleType.id}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let vehicleType"> {{vehicleType.name}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="created">
+        <th mat-header-cell *matHeaderCellDef> Created </th>
+        <td mat-cell *matCellDef="let vehicleType"> {{vehicleType.created}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="modified">
+        <th mat-header-cell *matHeaderCellDef> Modified </th>
+        <td mat-cell *matCellDef="let vehicleType"> {{vehicleType.modified}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let vehicleType">
+          <button (click)="delete(vehicleType.id)" mat-icon-button color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator
+                class="paginator"
+                [length]="totalCount"
+                [pageIndex]="page"
+                [pageSize]="size"
+                [pageSizeOptions]="[1, 2, 3, 4]"
+                (page)="loadVehicleTypes($event)"
+    ></mat-paginator>
+</div>

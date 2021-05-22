@@ -45,4 +45,12 @@ public interface AbstractCRUDLApi<ENTITY extends DistributedEntity, DTO extends 
      * @return Returns true if entity is deleted.
      */
     Boolean delete(Integer id);
+
+    /**
+     * Used to find entity by forwarded id.
+     *
+     * @param id ID of the entity.
+     * @return Returns found entity.
+     */
+    ENTITY findEntityById(Integer id);
 }

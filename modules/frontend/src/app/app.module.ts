@@ -17,12 +17,15 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ErrorDialogComponent } from './error/error-dialog.component';
+import { VehicleTypeComponent } from './vehicle/vehicletype/vehicletype.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     VehicleComponent,
+    VehicleTypeComponent,
     ErrorDialogComponent
   ],
   imports: [
@@ -37,7 +40,8 @@ import { ErrorDialogComponent } from './error/error-dialog.component';
     MatIconModule,
     MatDividerModule,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   providers: [StompService],
   bootstrap: [AppComponent]

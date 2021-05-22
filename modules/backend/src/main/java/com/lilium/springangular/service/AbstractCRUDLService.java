@@ -131,12 +131,14 @@ public abstract class AbstractCRUDLService<ENTITY extends DistributedEntity, DTO
             return false;
         }
     }
+
+    @Override
+    public ENTITY findEntityById(final Integer id) {
+        return repository.findById(id).orElse(null);
+    }
     // endregion
 
     // region Helper
-    private ENTITY findEntityById(final Integer id) {
-        return repository.findById(id).orElse(null);
-    }
 
     private List<DTO> getDtos(final List<ENTITY> entities) {
         if (CollectionUtils.isEmpty(entities)) {

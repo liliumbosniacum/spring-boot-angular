@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { PagedResponse } from '../models/paged-response-model';
 import { Vehicle } from '../models/vehicle.model';
+import { VehicleType } from '../models/vehicletype.model';
 import { StompService } from '../services/stomp.service';
 
 @Component({
@@ -12,20 +13,27 @@ import { StompService } from '../services/stomp.service';
   styleUrls: ['./vehicle.component.css']
 })
 export class VehicleComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'number', 'created', 'modified', 'action'];
+  displayedColumns: string[] = ['id', 'number', 'type', 'created', 'modified', 'action'];
   page: number = 0;
   size: number = 4;
   totalCount:number = 0;
 
   vehicleForm = new FormGroup({
     number: new FormControl(null),
+    type: new FormControl(null)
   });
 
   vehicles:Vehicle[] = [];
+  vehicleTypes: VehicleType[] = [];
 
   constructor(private http: HttpClient, private stompService: StompService) {}
 
   ngOnInit(): void {
+    // Load all vehicle types
+    this.http.get<PagedResponse<VehicleType>>("/api/vehicletypes/list").subscribe((response:PagedResponse<VehicleType>) => {
+      this.vehicleTypes = !!response.content ? response.content : [];
+    });
+
     this.refreshVehicleTable(this.page, this.size);
 
     this.stompService.subscribe('/topic/vehicle', (): void => {
