@@ -13,6 +13,7 @@ dependencies {
     implementation 'ch.qos.logback:logback-classic'
     implementation 'org.liquibase.ext:liquibase-hibernate5:4.3.3'
 
+    annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
 
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
@@ -50,6 +51,18 @@ liquibase {
         }
     }
     runList = 'main'
+}
+
+tasks.withType(JavaCompile) {
+    options.annotationProcessorGeneratedSourcesDirectory = file("src/generated/java")
+}
+
+sourceSets {
+    generated {
+        java {
+            srcDirs = ['src/generated/java']
+        }
+    }
 }
 
 test {

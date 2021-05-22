@@ -6,6 +6,14 @@ plugins {
     id 'org.liquibase.gradle' version '2.0.3'
 }
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
 group = 'com.lilium'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '15'
